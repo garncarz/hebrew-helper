@@ -53,3 +53,19 @@ it('checks for 1 in Hebrew (masc.)', () => {
   expect(num.checkAnswer('אֶחָד')).toEqual('masc');
   expect(num.getHelp()).toContain('אֶחָד (echad)');
 });
+
+it('checks for 10 in Hebrew (trans., fem., no \')', () => {
+  var nums = new Numerals();
+  var num = nums.numerals[10];
+  num.from_eng = true;
+  expect(num.checkAnswer('eser')).toEqual('fem');
+  expect(num.getHelp()).toContain('עֶשֶׂר (\'eser)');
+});
+
+it('checks for 10 in Hebrew (trans., masc., no \')', () => {
+  var nums = new Numerals();
+  var num = nums.numerals[10];
+  num.from_eng = true;
+  expect(num.checkAnswer('assara')).toEqual('masc');
+  expect(num.getHelp()).toContain('עֶשֶׂר (\'eser)');
+});

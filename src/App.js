@@ -7,6 +7,14 @@ var numerals = [
   [0, 'efes', 'אֶפֶס'],
   [1, 'achat', 'אַחַת', 'echad', 'אֶחָד'],
   [2, 'shtayim', 'שְׁתַּיִם', 'shnayim', 'שְׁנַיִם'],
+  [3, 'shalosh', 'שָׁלֹשׁ', 'shlosha', 'שְׁלֹשָׁה'],
+  [4, 'arba\'', 'אַרְבַּע', 'arba\'a', 'אַרְבָּעָה'],
+  [5, 'chamesh', 'חָמֵשׁ', 'chamisha', 'חֲמִשָּׁה'],
+  [6, 'shesh', 'שֵׁשׁ', 'shisha', 'שִׁשָּׁה'],
+  [7, 'sheva\'', 'שֶׁבַע', 'shiv\'a', 'שִׁבְעָה'],
+  [8, 'shmone', 'שְׁמוֹנֶה', 'shmona', 'שְׁמוֹנָה'],
+  [9, 'tesha\'', 'תֵּשַׁע', 'tish\'a', 'תִּשְׁעָה'],
+  [10, '\'eser', 'עֶשֶׂר', '\'assara', 'עֲשָׂרָה'],
 ];
 
 
@@ -45,10 +53,10 @@ class Numeral {
       this.ok = answer === this.nr.toString();
       return this.ok;
     }
-    if (this.fem_tr === answer || this.fem_he === answer) {
+    if (this.fem_tr === answer || this.fem_he === answer || this.fem_tr.replace("'", '') === answer) {
       this.ok = 'fem';
     }
-    if (this.masc_tr === answer || this.masc_he === answer) {
+    if (this.masc_tr === answer || this.masc_he === answer || this.masc_tr.replace("'", '') === answer) {
       this.ok = 'masc';
     }
     return this.ok;
