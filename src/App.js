@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import david_star from './david_star.svg';
 import './App.css';
 
 
@@ -162,7 +161,7 @@ class App extends Component {
   }
 
   keyPress(event) {
-    if (event.key == 'Enter' && this.ok) {
+    if (event.key === 'Enter' && this.ok) {
       this.newQuestion();
     }
   }
