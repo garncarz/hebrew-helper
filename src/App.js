@@ -36,9 +36,9 @@ class App extends Component {
     this.helpRef.current.innerHTML = '';
   }
 
-  checkAnswer() {
+  checkAnswer(event) {
     var answer = this.inputRef.current.value.trim();
-    var ok, msg;
+    var ok, msg = '';
 
     if (this.question === 0) {
       ok = this.numeral.indexOf(answer) > 0;
@@ -48,7 +48,7 @@ class App extends Component {
 
     if (ok) {
       msg = 'OK!';
-    } else {
+    } else if (event.target !== this.inputRef.current) {
       msg = 'No...';
     }
 
@@ -64,7 +64,7 @@ class App extends Component {
             Edit <code>src/App.js</code> and save to reload.
           </p>
           <p ref={this.questionRef}></p>
-          <input type="text" ref={this.inputRef}></input>
+          <input type="text" ref={this.inputRef} onChange={this.checkAnswer}></input>
           <input type="button" onClick={this.checkAnswer} value="Check"></input>
           <input type="button" onClick={this.newQuestion} value="Next"></input>
           <p ref={this.helpRef}></p>
