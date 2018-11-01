@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
 import './App.css';
 
 
@@ -167,6 +168,7 @@ class App extends Component {
   }
 
   render() {
+    ReactGA.pageview('/numerals');
     return (
       <div className="App">
         <header className="App-header">
