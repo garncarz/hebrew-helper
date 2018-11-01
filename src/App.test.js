@@ -43,7 +43,7 @@ it('checks for 1 in Hebrew (trans., fem.)', () => {
   var num = nums.numerals[1];
   num.from_eng = true;
   expect(num.checkAnswer('achat')).toEqual('fem');
-  expect(num.getHelp()).toEqual('אַחַת (achat)');
+  expect(num.getHelp()).toContain('אַחַת (achat)');
 });
 
 it('checks for 1 in Hebrew (masc.)', () => {
@@ -51,5 +51,5 @@ it('checks for 1 in Hebrew (masc.)', () => {
   var num = nums.numerals[1];
   num.from_eng = true;
   expect(num.checkAnswer('אֶחָד')).toEqual('masc');
-  expect(num.getHelp()).toEqual('אֶחָד (echad)');
+  expect(num.getHelp()).toContain('אֶחָד (echad)');
 });

@@ -42,7 +42,8 @@ class Numeral {
       return false;
     }
     if (!this.from_eng) {
-      return answer === this.nr.toString();
+      this.ok = answer === this.nr.toString();
+      return this.ok;
     }
     if (this.fem_tr === answer || this.fem_he === answer) {
       this.ok = 'fem';
@@ -54,12 +55,15 @@ class Numeral {
   }
 
   getHelp() {
-    if (this.ok === 'fem') {
-      return this.fem_he + ' (' + this.fem_tr + ')';
+    if (!this.from_eng) {
+      return this.ok ? '' : this.nr.toString();
     }
-    if (this.ok === 'masc') {
-      return this.masc_he + ' (' + this.masc_tr + ')';
+
+    var help = this.fem_he + ' (' + this.fem_tr + ')';
+    if (this.masc_he !== '') {
+      help += '<br/>' + this.masc_he + ' (' + this.masc_tr + ')';
     }
+    return help;
   }
 
 }
@@ -91,9 +95,12 @@ class App extends Component {
 
     this.newQuestion = this.newQuestion.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
+    this.showHelp = this.showHelp.bind(this);
 
     this.questionRef = React.createRef();
     this.inputRef = React.createRef();
+    this.showHelpRef = React.createRef();
+    this.nextRef = React.createRef();
     this.helpRef = React.createRef();
   }
 
@@ -107,13 +114,18 @@ class App extends Component {
     this.questionRef.current.innerHTML = this.numerals.numeral.getQuestion();
     this.inputRef.current.value = '';
     this.helpRef.current.innerHTML = '';
+
+    this.showHelpRef.current.style.display = 'block';
+    this.nextRef.current.style.display = 'none';
+
+    this.inputRef.current.focus();
   }
 
   checkAnswer(event) {
     var answer = this.inputRef.current.value.trim();
     var ok = this.numerals.numeral.checkAnswer(answer);
 
-    var msg = ok ? 'OK!' : 'No...';
+    var msg = ok ? '✓' : 'No...';
     var help = this.numerals.numeral.getHelp();
 
     if (help) {
@@ -125,17 +137,28 @@ class App extends Component {
     }
 
     this.helpRef.current.innerHTML = msg;
+
+    if (ok) {
+      this.showHelpRef.current.style.display = 'none';
+      this.nextRef.current.style.display = 'block';
+    }
+  }
+
+  showHelp() {
+    var help = this.numerals.numeral.getHelp();
+    this.helpRef.current.innerHTML = help;
+
+    this.inputRef.current.focus();
   }
 
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={david_star} className="App-logo" alt="logo" />
           <p ref={this.questionRef}></p>
           <input type="text" ref={this.inputRef} onChange={this.checkAnswer}></input>
-          <input type="button" onClick={this.checkAnswer} value="Check"></input>
-          <input type="button" onClick={this.newQuestion} value="Next"></input>
+          <input type="button" ref={this.showHelpRef} onClick={this.showHelp} value="Help"></input>
+          <input type="button" ref={this.nextRef} onClick={this.newQuestion} value="Next"></input>
           <p ref={this.helpRef} className="help"></p>
         </header>
       </div>
