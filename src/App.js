@@ -100,10 +100,12 @@ class App extends Component {
     super(props);
 
     this.numerals = new Numerals();
+    this.ok = false;
 
     this.newQuestion = this.newQuestion.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
     this.showHelp = this.showHelp.bind(this);
+    this.keyPress = this.keyPress.bind(this);
 
     this.questionRef = React.createRef();
     this.inputRef = React.createRef();
@@ -131,22 +133,22 @@ class App extends Component {
 
   checkAnswer(event) {
     var answer = this.inputRef.current.value.trim();
-    var ok = this.numerals.numeral.checkAnswer(answer);
+    this.ok = this.numerals.numeral.checkAnswer(answer);
 
-    var msg = ok ? '✓' : 'No...';
+    var msg = this.ok ? '✓' : 'No...';
     var help = this.numerals.numeral.getHelp();
 
     if (help) {
       msg += '<br/>' + help;
     }
 
-    if (!ok && event.target === this.inputRef.current) {
+    if (!this.ok && event.target === this.inputRef.current) {
       msg = '';
     }
 
     this.helpRef.current.innerHTML = msg;
 
-    if (ok) {
+    if (this.ok) {
       this.showHelpRef.current.style.display = 'none';
       this.nextRef.current.style.display = 'block';
     }
@@ -159,12 +161,19 @@ class App extends Component {
     this.inputRef.current.focus();
   }
 
+  keyPress(event) {
+    if (event.key == 'Enter' && this.ok) {
+      this.newQuestion();
+    }
+  }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <p ref={this.questionRef}></p>
-          <input type="text" ref={this.inputRef} onChange={this.checkAnswer}></input>
+          <input type="text" ref={this.inputRef} onChange={this.checkAnswer}
+            onKeyPress={this.keyPress}></input>
           <input type="button" ref={this.showHelpRef} onClick={this.showHelp} value="Help"></input>
           <input type="button" ref={this.nextRef} onClick={this.newQuestion} value="Next"></input>
           <p ref={this.helpRef} className="help"></p>
