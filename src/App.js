@@ -30,9 +30,9 @@ class Numeral {
       return this.nr;
     }
     if (Math.random() >= 0.5 || this.masc_he === '') {
-      return this.fem_he + '(' + this.fem_tr + ')';
+      return this.fem_he + ' (' + this.fem_tr + ')';
     } else {
-      return this.masc_he + '(' + this.masc_tr + ')';
+      return this.masc_he + ' (' + this.masc_tr + ')';
     }
   }
 
@@ -55,17 +55,17 @@ class Numeral {
 
   getHelp() {
     if (this.ok === 'fem') {
-      return this.fem_he + '(' + this.fem_tr + ')';
+      return this.fem_he + ' (' + this.fem_tr + ')';
     }
-    if (this.ok == 'masc') {
-      return this.masc_he + '(' + this.masc_tr + ')';
+    if (this.ok === 'masc') {
+      return this.masc_he + ' (' + this.masc_tr + ')';
     }
   }
 
 }
 
 
-class Numerals {
+export class Numerals {
 
   constructor() {
     this.numerals = [];
