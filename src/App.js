@@ -136,7 +136,7 @@ class App extends Component {
           <input type="text" ref={this.inputRef} onChange={this.checkAnswer}></input>
           <input type="button" onClick={this.checkAnswer} value="Check"></input>
           <input type="button" onClick={this.newQuestion} value="Next"></input>
-          <p ref={this.helpRef}></p>
+          <p ref={this.helpRef} className="help"></p>
         </header>
       </div>
     );
