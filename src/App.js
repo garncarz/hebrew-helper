@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import david_star from './david_star.svg';
 import './App.css';
 
 
@@ -59,23 +59,12 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
+          <img src={david_star} className="App-logo" alt="logo" />
           <p ref={this.questionRef}></p>
           <input type="text" ref={this.inputRef} onChange={this.checkAnswer}></input>
           <input type="button" onClick={this.checkAnswer} value="Check"></input>
           <input type="button" onClick={this.newQuestion} value="Next"></input>
           <p ref={this.helpRef}></p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
         </header>
       </div>
     );
