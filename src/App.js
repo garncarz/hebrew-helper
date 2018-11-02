@@ -120,6 +120,7 @@ class App extends Component {
 
   newQuestion() {
     this.numerals.newQuestion();
+    this.ok = false;
 
     this.questionRef.current.innerHTML = this.numerals.numeral.getQuestion();
     this.inputRef.current.value = '';
