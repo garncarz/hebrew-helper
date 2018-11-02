@@ -34,4 +34,5 @@ input[type=button] {
 
 .help {
   height: 30vh;
+  white-space: pre-line;
 }

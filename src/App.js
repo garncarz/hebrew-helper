@@ -31,6 +31,8 @@ class Numeral {
   newQuestion() {
     this.from_eng = Math.random() >= 0.5;
     this.ok = false;
+
+    return this.getQuestion();
   }
 
   getQuestion() {
@@ -69,7 +71,7 @@ class Numeral {
 
     var help = this.fem_he + ' (' + this.fem_tr + ')';
     if (this.masc_he !== '') {
-      help += '<br/>' + this.masc_he + ' (' + this.masc_tr + ')';
+      help += '\n' + this.masc_he + ' (' + this.masc_tr + ')';
     }
     return help;
   }
@@ -88,7 +90,7 @@ export class Numerals {
 
   newQuestion() {
     this.numeral = this.numerals[Math.floor(Math.random() * this.numerals.length)];
-    this.numeral.newQuestion();
+    return this.numeral.newQuestion();
   }
 
 }
@@ -100,18 +102,20 @@ class App extends Component {
     super(props);
 
     this.numerals = new Numerals();
-    this.ok = false;
+
+    this.state = {
+      ok: false,
+      question: '',
+      answer: '',
+      help: '',
+    };
 
     this.newQuestion = this.newQuestion.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
     this.showHelp = this.showHelp.bind(this);
     this.keyPress = this.keyPress.bind(this);
 
-    this.questionRef = React.createRef();
     this.inputRef = React.createRef();
-    this.showHelpRef = React.createRef();
-    this.nextRef = React.createRef();
-    this.helpRef = React.createRef();
   }
 
   componentDidMount() {
@@ -119,51 +123,37 @@ class App extends Component {
   }
 
   newQuestion() {
-    this.numerals.newQuestion();
-    this.ok = false;
-
-    this.questionRef.current.innerHTML = this.numerals.numeral.getQuestion();
-    this.inputRef.current.value = '';
-    this.helpRef.current.innerHTML = '';
-
-    this.showHelpRef.current.style.display = 'block';
-    this.nextRef.current.style.display = 'none';
+    this.setState({
+      ok: false,
+      question: this.numerals.newQuestion(),
+      answer: '',
+      help: '',
+    });
 
     this.inputRef.current.focus();
   }
 
   checkAnswer(event) {
-    var answer = this.inputRef.current.value.trim();
-    this.ok = this.numerals.numeral.checkAnswer(answer);
+    var answer = event.target.value.trim();
+    var ok = this.numerals.numeral.checkAnswer(answer);
 
-    var msg = this.ok ? '✓' : 'No...';
-    var help = this.numerals.numeral.getHelp();
-
-    if (help) {
-      msg += '<br/>' + help;
-    }
-
-    if (!this.ok && event.target === this.inputRef.current) {
-      msg = '';
-    }
-
-    this.helpRef.current.innerHTML = msg;
-
-    if (this.ok) {
-      this.showHelpRef.current.style.display = 'none';
-      this.nextRef.current.style.display = 'block';
-    }
+    this.setState({
+      ok: ok,
+      answer: answer,
+      help: ok ? '✓\n' + this.numerals.numeral.getHelp() : '',
+    });
   }
 
   showHelp() {
-    var help = this.numerals.numeral.getHelp();
-    this.helpRef.current.innerHTML = help;
+    this.setState({
+      help: this.numerals.numeral.getHelp(),
+    });
 
     this.inputRef.current.focus();
   }
 
   keyPress(event) {
-    if (event.key === 'Enter' && this.ok) {
+    if (event.key === 'Enter' && this.state.ok) {
       this.newQuestion();
     }
   }
@@ -173,12 +163,14 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <p ref={this.questionRef}></p>
+          <p>{ this.state.question }</p>
           <input type="text" ref={this.inputRef} onChange={this.checkAnswer}
-            onKeyPress={this.keyPress}></input>
-          <input type="button" ref={this.showHelpRef} onClick={this.showHelp} value="Help"></input>
-          <input type="button" ref={this.nextRef} onClick={this.newQuestion} value="Next"></input>
-          <p ref={this.helpRef} className="help"></p>
+            onKeyPress={this.keyPress} value={this.state.answer} />
+          { this.state.ok
+            ? <input type="button" onClick={this.newQuestion} value="Next" />
+            : <input type="button" onClick={this.showHelp} value="Help" />
+          }
+          <p className="help">{ this.state.help }</p>
         </header>
       </div>
     );
