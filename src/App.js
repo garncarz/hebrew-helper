@@ -29,7 +29,9 @@ class Numeral {
   }
 
   newQuestion() {
+    // TODO move to App
     this.from_eng = Math.random() >= 0.5;
+
     this.ok = false;
 
     return this.getQuestion();
@@ -79,31 +81,18 @@ class Numeral {
 }
 
 
-export class Numerals {
-
-  constructor() {
-    this.numerals = [];
-    for (var i = 0; i < numerals.length; i++) {
-      this.numerals.push(new Numeral(...numerals[i]));
-    }
-  }
-
-  newQuestion() {
-    this.numeral = this.numerals[Math.floor(Math.random() * this.numerals.length)];
-    return this.numeral.newQuestion();
-  }
-
-}
-
-
 class App extends Component {
 
   constructor(props) {
     super(props);
 
-    this.numerals = new Numerals();
+    this.numerals = [];
+    for (var i = 0; i < numerals.length; i++) {
+      this.numerals.push(new Numeral(...numerals[i]));
+    }
 
     this.state = {
+      numeral: null,
       ok: false,
       question: '',
       answer: '',
@@ -123,9 +112,12 @@ class App extends Component {
   }
 
   newQuestion() {
+    var numeral = this.numerals[Math.floor(Math.random() * this.numerals.length)];
+
     this.setState({
+      numeral: numeral,
       ok: false,
-      question: this.numerals.newQuestion(),
+      question: numeral.newQuestion(),
       answer: '',
       help: '',
     });
@@ -135,18 +127,18 @@ class App extends Component {
 
   checkAnswer(event) {
     var answer = event.target.value.trim();
-    var ok = this.numerals.numeral.checkAnswer(answer);
+    var ok = this.state.numeral.checkAnswer(answer);
 
     this.setState({
       ok: ok,
       answer: answer,
-      help: ok ? '✓\n' + this.numerals.numeral.getHelp() : '',
+      help: ok ? '✓\n' + this.state.numeral.getHelp() : '',
     });
   }
 
   showHelp() {
     this.setState({
-      help: this.numerals.numeral.getHelp(),
+      help: this.state.numeral.getHelp(),
     });
 
     this.inputRef.current.focus();
