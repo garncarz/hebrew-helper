@@ -1,5 +1,8 @@
 # Hebrew Learning Helper
 
+[![Build Status](https://travis-ci.org/garncarz/hebrew-helper.svg?branch=master)](https://travis-ci.org/garncarz/hebrew-helper)
+[![Coverage Status](https://coveralls.io/repos/github/garncarz/hebrew-helper/badge.svg?branch=master)](https://coveralls.io/github/garncarz/hebrew-helper?branch=master)
+
 A simple numerical quiz, so far. Hopefully, the project will contain multiple quizzes, making Hebrew learning easier.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
