@@ -1,21 +1,7 @@
 import React, { Component } from 'react';
 import ReactGA from 'react-ga';
-import './App.css';
-
-
-var numerals = [
-  [0, 'efes', 'אֶפֶס'],
-  [1, 'achat', 'אַחַת', 'echad', 'אֶחָד'],
-  [2, 'shtayim', 'שְׁתַּיִם', 'shnayim', 'שְׁנַיִם'],
-  [3, 'shalosh', 'שָׁלֹשׁ', 'shlosha', 'שְׁלֹשָׁה'],
-  [4, 'arba\'', 'אַרְבַּע', 'arba\'a', 'אַרְבָּעָה'],
-  [5, 'chamesh', 'חָמֵשׁ', 'chamisha', 'חֲמִשָּׁה'],
-  [6, 'shesh', 'שֵׁשׁ', 'shisha', 'שִׁשָּׁה'],
-  [7, 'sheva\'', 'שֶׁבַע', 'shiv\'a', 'שִׁבְעָה'],
-  [8, 'shmone', 'שְׁמוֹנֶה', 'shmona', 'שְׁמוֹנָה'],
-  [9, 'tesha\'', 'תֵּשַׁע', 'tish\'a', 'תִּשְׁעָה'],
-  [10, '\'eser', 'עֶשֶׂר', '\'assara', 'עֲשָׂרָה'],
-];
+import { numerals } from './db.js';
+import './NumeralsQuiz.css';
 
 
 class Numeral {
@@ -81,7 +67,7 @@ class Numeral {
 }
 
 
-class App extends Component {
+export default class NumeralsQuiz extends Component {
 
   constructor(props) {
     super(props);
@@ -153,21 +139,17 @@ class App extends Component {
   render() {
     ReactGA.pageview('/numerals');
     return (
-      <div className="App">
-        <header className="App-header">
-          <p>{ this.state.question }</p>
-          <input type="text" ref={this.inputRef} onChange={this.checkAnswer}
-            onKeyPress={this.keyPress} value={this.state.answer} />
-          { this.state.ok
-            ? <input type="button" onClick={this.newQuestion} value="Next" />
-            : <input type="button" onClick={this.showHelp} value="Help" />
-          }
-          <p className="help">{ this.state.help }</p>
-        </header>
+      <div className="NumeralsQuiz">
+        <p>{ this.state.question }</p>
+        <input type="text" ref={this.inputRef} onChange={this.checkAnswer}
+          onKeyPress={this.keyPress} value={this.state.answer} />
+        { this.state.ok
+          ? <input type="button" onClick={this.newQuestion} value="Next" />
+          : <input type="button" onClick={this.showHelp} value="Help" />
+        }
+        <p className="help">{ this.state.help }</p>
       </div>
     );
   }
 
 }
-
-export default App;

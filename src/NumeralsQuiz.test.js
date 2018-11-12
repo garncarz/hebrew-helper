@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { mount } from 'enzyme';
-import App from './App';
+import NumeralsQuiz from './NumeralsQuiz';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
+  ReactDOM.render(<NumeralsQuiz />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
 
 describe('asking/checking logic', () => {
-  var app = new App();
+  var app = new NumeralsQuiz();
 
   it('asks for 0 in English', () => {
     var num = app.numerals[0];
@@ -73,7 +73,7 @@ describe('Enter key', () => {
   var wrapper, newQuestion_spy, checkAnswer_spy, input;
 
   beforeEach(() => {
-    wrapper = mount(<App />);
+    wrapper = mount(<NumeralsQuiz />);
 
     newQuestion_spy = jest.spyOn(wrapper.instance(), 'newQuestion');
     checkAnswer_spy = jest.spyOn(wrapper.instance(), 'checkAnswer');

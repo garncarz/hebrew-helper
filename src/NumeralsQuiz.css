@@ -1,8 +1,5 @@
-.App {
+.NumeralsQuiz {
   text-align: center;
-}
-
-.App-header {
   background-color: white;
   min-height: 100vh;
   display: flex;
@@ -11,10 +8,6 @@
   justify-content: center;
   font-size: calc(40px + 2vmin);
   color: black;
-}
-
-.App-link {
-  color: blue;
 }
 
 input {
