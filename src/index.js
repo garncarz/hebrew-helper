@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
 import './index.css';
 import NumeralsQuiz from './NumeralsQuiz';
+import NumeralsTable from './NumeralsTable';
 import * as serviceWorker from './serviceWorker';
 
 ReactGA.initialize('UA-128507110-1');

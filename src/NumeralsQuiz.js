@@ -139,7 +139,7 @@ export default class NumeralsQuiz extends Component {
   render() {
     ReactGA.pageview('/numerals');
     return (
-      <div className="NumeralsQuiz">
+      <div className="content">
         <p>{ this.state.question }</p>
         <input type="text" ref={this.inputRef} onChange={this.checkAnswer}
           onKeyPress={this.keyPress} value={this.state.answer} />
