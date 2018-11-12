@@ -8,7 +8,7 @@ import './App.css';
 
 
 const App = () => (
-  <Router>
+  <Router basename={ process.env.PUBLIC_URL }>
     <div>
       <Header />
 
