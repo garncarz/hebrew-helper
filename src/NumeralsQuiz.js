@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactGA from 'react-ga';
 import { numerals } from './db.js';
 import './NumeralsQuiz.css';
 
@@ -137,7 +136,6 @@ export default class NumeralsQuiz extends Component {
   }
 
   render() {
-    ReactGA.pageview('/numerals');
     return (
       <div className="content">
         <p>{ this.state.question }</p>

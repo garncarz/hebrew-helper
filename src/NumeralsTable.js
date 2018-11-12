@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactGA from 'react-ga';
 import { numerals } from './db.js';
 import './NumeralsTable.css';
 
@@ -28,7 +27,6 @@ export default class NumeralsTable extends Component {
   }
 
   render() {
-    ReactGA.pageview('/numeralsTable');
     return (
       <div className="content">
         <table>

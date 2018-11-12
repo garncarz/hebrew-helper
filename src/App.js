@@ -1,5 +1,7 @@
 import React from 'react';
 import { HashRouter as Router, Route, Link, Redirect } from 'react-router-dom';
+import createHistory from 'history/createBrowserHistory';
+import ReactGA from 'react-ga';
 
 import NumeralsQuiz from './NumeralsQuiz';
 import NumeralsTable from './NumeralsTable';
@@ -7,17 +9,36 @@ import NumeralsTable from './NumeralsTable';
 import './App.css';
 
 
-const App = () => (
-  <Router>
-    <div>
-      <Header />
+const history = createHistory();
 
-      <Route exact path="/" render={ () => <Redirect to="/numeralsQuiz" /> } />
-      <Route path="/numeralsQuiz" component={ NumeralsQuiz } />
-      <Route path="/numeralsTable" component={ NumeralsTable } />
-    </div>
-  </Router>
-);
+history.listen(location => {
+  ReactGA.set({ page: location.href });
+  ReactGA.pageview(location.href);
+});
+
+
+export default class App extends React.Component {
+
+  componentDidMount() {
+    ReactGA.pageview(window.location.href);
+  }
+
+  render() {
+    return (
+      <Router history={ history }>
+        <div>
+          <Header />
+
+          <Route exact path="/" render={ () => <Redirect to="/numeralsQuiz" /> } />
+          <Route path="/numeralsQuiz" component={ NumeralsQuiz } />
+          <Route path="/numeralsTable" component={ NumeralsTable } />
+        </div>
+      </Router>
+    );
+  }
+
+}
+
 
 const Header = () => (
   <div className="header">
@@ -25,5 +46,3 @@ const Header = () => (
     <Link to="/numeralsTable">Numerals table</Link>
   </div>
 );
-
-export default App;
