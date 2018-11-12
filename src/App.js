@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
+import { HashRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 
 import NumeralsQuiz from './NumeralsQuiz';
 import NumeralsTable from './NumeralsTable';
@@ -8,11 +8,11 @@ import './App.css';
 
 
 const App = () => (
-  <Router basename={ process.env.PUBLIC_URL }>
+  <Router>
     <div>
       <Header />
 
-      <Redirect from="/" to="/numeralsQuiz" />
+      <Route exact path="/" render={ () => <Redirect to="/numeralsQuiz" /> } />
       <Route path="/numeralsQuiz" component={ NumeralsQuiz } />
       <Route path="/numeralsTable" component={ NumeralsTable } />
     </div>
