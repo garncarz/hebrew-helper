@@ -1,0 +1,11 @@
+from node:alpine
+
+run mkdir /app
+workdir /app
+
+env PATH /app/node_modules/.bin:$PATH
+env NODE_ENV development
+env BROWSER none
+
+copy package*.json ./
+run npm install

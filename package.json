@@ -1,7 +1,6 @@
 {
   "name": "hebrew-helper",
   "version": "0.1.0",
-  "homepage": "https://garncarz.github.io/hebrew-helper",
   "private": true,
   "dependencies": {
     "react": "^16.6.0",
