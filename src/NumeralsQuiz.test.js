@@ -11,6 +11,7 @@ it('renders without crashing', () => {
 
 describe('asking/checking logic', () => {
   var app = new NumeralsQuiz();
+  app.numerals = app.items;  // old naming
 
   it('asks for 0 in English', () => {
     var num = app.numerals[0];
@@ -104,9 +105,9 @@ describe('Enter key', () => {
   });
 
   it('jumps to the next question if answered correctly', () => {
-    var numeral = wrapper.instance().numerals[0];
-    numeral.from_eng = true;
-    wrapper.setState({numeral: numeral});
+    var item = wrapper.instance().items[0];
+    item.from_eng = true;
+    wrapper.setState({item: item});
 
     input.simulate('change', {target: {value: 'efes'}});
     input.simulate('keyPress', {key: 'Enter'});
@@ -117,9 +118,9 @@ describe('Enter key', () => {
   });
 
   it('does not do anything if answered incorrectly', () => {
-    var numeral = wrapper.instance().numerals[0];
-    numeral.from_eng = false;
-    wrapper.setState({numeral: numeral});
+    var item = wrapper.instance().items[0];
+    item.from_eng = false;
+    wrapper.setState({item: item});
 
     input.simulate('change', {target: {value: 'efes'}});
     input.simulate('keyPress', {key: 'Enter'});

@@ -1,26 +1,18 @@
-import React, { Component } from 'react';
+import { Quiz, QuizItem } from './Quiz.js';
 import { numerals } from './db.js';
-import { removeNiqqud } from './lib.js';
 import './NumeralsQuiz.css';
 
 
-class Numeral {
+class Numeral extends QuizItem {
 
   constructor(nr, fem_tr, fem_he, masc_tr='', masc_he='') {
+    super();
+
     this.nr = nr;
     this.fem_tr = fem_tr;
     this.fem_he = fem_he;
     this.masc_tr = masc_tr;
     this.masc_he = masc_he;
-  }
-
-  newQuestion() {
-    // TODO move to App
-    this.from_eng = Math.random() >= 0.5;
-
-    this.ok = false;
-
-    return this.getQuestion();
   }
 
   getQuestion() {
@@ -44,11 +36,11 @@ class Numeral {
       return this.ok;
     }
     if (this.fem_tr === answer || this.fem_tr.replace("'", '') === answer
-        || this.fem_he === answer || removeNiqqud(this.fem_he) === answer) {
+        || this.fem_he === answer || this.removeNiqqud(this.fem_he) === answer) {
       this.ok = 'fem';
     }
     if (this.masc_tr === answer || this.masc_tr.replace("'", '') === answer
-        || this.masc_he === answer || removeNiqqud(this.masc_he) === answer) {
+        || this.masc_he === answer || this.removeNiqqud(this.masc_he) === answer) {
       this.ok = 'masc';
     }
     return this.ok;
@@ -69,88 +61,14 @@ class Numeral {
 }
 
 
-export default class NumeralsQuiz extends Component {
+export default class NumeralsQuiz extends Quiz {
 
   constructor(props) {
     super(props);
 
-    this.numerals = [];
     for (var i = 0; i < numerals.length; i++) {
-      this.numerals.push(new Numeral(...numerals[i]));
+      this.items.push(new Numeral(...numerals[i]));
     }
-
-    this.state = {
-      numeral: null,
-      ok: false,
-      question: '',
-      answer: '',
-      help: '',
-    };
-
-    this.newQuestion = this.newQuestion.bind(this);
-    this.checkAnswer = this.checkAnswer.bind(this);
-    this.showHelp = this.showHelp.bind(this);
-    this.keyPress = this.keyPress.bind(this);
-
-    this.inputRef = React.createRef();
-  }
-
-  componentDidMount() {
-    this.newQuestion();
-  }
-
-  newQuestion() {
-    var numeral = this.numerals[Math.floor(Math.random() * this.numerals.length)];
-
-    this.setState({
-      numeral: numeral,
-      ok: false,
-      question: numeral.newQuestion(),
-      answer: '',
-      help: '',
-    });
-
-    this.inputRef.current.focus();
-  }
-
-  checkAnswer(event) {
-    var answer = event.target.value.trim();
-    var ok = this.state.numeral.checkAnswer(answer);
-
-    this.setState({
-      ok: ok,
-      answer: answer,
-      help: ok ? '✓\n' + this.state.numeral.getHelp() : '',
-    });
-  }
-
-  showHelp() {
-    this.setState({
-      help: this.state.numeral.getHelp(),
-    });
-
-    this.inputRef.current.focus();
-  }
-
-  keyPress(event) {
-    if (event.key === 'Enter' && this.state.ok) {
-      this.newQuestion();
-    }
-  }
-
-  render() {
-    return (
-      <div className="content">
-        <p>{ this.state.question }</p>
-        <input type="text" ref={this.inputRef} onChange={this.checkAnswer}
-          onKeyPress={this.keyPress} value={this.state.answer} />
-        { this.state.ok
-          ? <input type="button" onClick={this.newQuestion} value="Next" />
-          : <input type="button" onClick={this.showHelp} value="Help" />
-        }
-        <p className="help">{ this.state.help }</p>
-      </div>
-    );
   }
 
 }
