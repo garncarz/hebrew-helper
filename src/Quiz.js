@@ -80,6 +80,10 @@ export class Quiz extends React.Component {
     if (event.key === 'Enter' && this.state.ok) {
       this.newQuestion();
     }
+    if (event.key === '?') {
+      this.showHelp();
+      event.preventDefault();
+    }
   }
 
   render() {
