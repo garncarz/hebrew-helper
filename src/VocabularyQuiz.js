@@ -39,13 +39,11 @@ class VocabularyItem extends QuizItem {
   }
 
   getHelp() {
-    if (this.from_eng) {
-      if (this.tr) {
-        return this.he + ' (' + this.tr + ')';
-      }
-      return this.he;
+    var help = this.from_eng ? this.he : this.eng;
+    if (this.tr) {
+      return help += ' (' + this.tr + ')';
     }
-    return this.eng;
+    return help;
   }
 
 }
