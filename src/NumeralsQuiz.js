@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { numerals } from './db.js';
+import { removeNiqqud } from './lib.js';
 import './NumeralsQuiz.css';
 
 
@@ -42,10 +43,12 @@ class Numeral {
       this.ok = answer === this.nr.toString();
       return this.ok;
     }
-    if (this.fem_tr === answer || this.fem_he === answer || this.fem_tr.replace("'", '') === answer) {
+    if (this.fem_tr === answer || this.fem_tr.replace("'", '') === answer
+        || this.fem_he === answer || removeNiqqud(this.fem_he) === answer) {
       this.ok = 'fem';
     }
-    if (this.masc_tr === answer || this.masc_he === answer || this.masc_tr.replace("'", '') === answer) {
+    if (this.masc_tr === answer || this.masc_tr.replace("'", '') === answer
+        || this.masc_he === answer || removeNiqqud(this.masc_he) === answer) {
       this.ok = 'masc';
     }
     return this.ok;

@@ -66,6 +66,19 @@ describe('asking/checking logic', () => {
     expect(num.getHelp()).toContain('עֶשֶׂר (\'eser)');
   });
 
+  it('does not require niqqud', () => {
+    var num = app.numerals[2];
+    num.from_eng = true;
+    expect(num.checkAnswer('שתים')).toEqual('fem');
+    expect(num.checkAnswer('שנים')).toEqual('masc');
+  });
+
+  it('needs correct niqqud if used', () => {
+    var num = app.numerals[2];
+    num.from_eng = true;
+    expect(num.checkAnswer('שַׁתַּיִם')).toBeFalsy();
+  });
+
 });
 
 
