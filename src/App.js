@@ -5,7 +5,7 @@ import ReactGA from 'react-ga';
 
 import NumeralsQuiz from './NumeralsQuiz';
 import NumeralsTable from './NumeralsTable';
-import VocabularyQuiz from './VocabularyQuiz';
+import { VocabularyQuiz, VocabularyTable } from './VocabularyQuiz';
 
 import './App.css';
 
@@ -34,6 +34,7 @@ export default class App extends React.Component {
           <Route path="/numeralsQuiz" component={ NumeralsQuiz } />
           <Route path="/numeralsTable" component={ NumeralsTable } />
           <Route path="/vocabularyQuiz" component={ VocabularyQuiz } />
+          <Route path="/vocabularyTable" component={ VocabularyTable } />
         </div>
       </Router>
     );
@@ -47,5 +48,6 @@ const Header = () => (
     <Link to="/numeralsQuiz">Numerals quiz</Link>
     <Link to="/numeralsTable">Numerals table</Link>
     <Link to="/vocabularyQuiz">Vocabulary quiz</Link>
+    <Link to="/vocabularyTable">Vocabulary table</Link>
   </div>
 );
