@@ -78,6 +78,15 @@ export class VocabularyTable extends QuizTable {
     };
   }
 
+  onDelete(index) {
+    if (window.confirm('Really delete ' + this.state.data[index] + '?')) {
+      this.setState(state => {
+        state.data.splice(index, 1);
+        return state;
+      });
+    }
+  }
+
   render() {
     const { data } = this.state;
     return (
@@ -99,6 +108,15 @@ export class VocabularyTable extends QuizTable {
               Header: "Transcript",
               id: 2,
               Cell: this.renderEditable
+            },
+            {
+              Cell: (cellInfo) => {
+                return (
+                  <div>
+                    <button onClick={ e => this.onDelete(cellInfo.index) }>Delete</button>
+                  </div>
+                );
+              }
             },
           ]}
           defaultPageSize={10}
