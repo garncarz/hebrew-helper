@@ -3,6 +3,7 @@ import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 
 import { Quiz, QuizItem, QuizTable } from './Quiz.js';
+import { VERSION } from './version.js';
 
 import './VocabularyQuiz.css';
 
@@ -108,6 +109,22 @@ export class VocabularyTable extends QuizTable {
     });
   }
 
+  exportData = () => {
+    // https://stackoverflow.com/a/33542499
+    var filename = 'vocabulary.json';
+    var blob = new Blob([JSON.stringify({data: this.state.data, version: VERSION})], {type: 'application/json'});
+    if (window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveBlob(blob, filename);
+    } else {
+      var elem = window.document.createElement('a');
+      elem.href = window.URL.createObjectURL(blob);
+      elem.download = filename;
+      document.body.appendChild(elem);
+      elem.click();
+      document.body.removeChild(elem);
+    }
+  }
+
   render() {
     const { data } = this.state;
     return (
@@ -175,6 +192,7 @@ export class VocabularyTable extends QuizTable {
           defaultPageSize={10}
           className="-striped -highlight"
         />
+        <a onClick={ e => this.exportData() }>Export</a>
       </div>
     );
   }
