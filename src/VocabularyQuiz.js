@@ -75,6 +75,7 @@ export class VocabularyTable extends QuizTable {
 
     this.state = {
       data: vocabulary,
+      newWord: {},
     };
   }
 
@@ -87,6 +88,24 @@ export class VocabularyTable extends QuizTable {
     }
   }
 
+  onNewWordChange = (event) => {
+    event.persist();
+    this.setState(state => {
+      state.newWord[event.target.name] = event.target.value;
+      return state;
+    });
+    // TODO don't lose input focus
+  }
+
+  onAdd = () => {
+    this.setState(state => {
+      // TODO state.data should also be a dict
+      state.data.push([state.newWord['eng'], state.newWord['he'], state.newWord['tr']]);
+      state.newWord = {};
+      return state;
+    });
+  }
+
   render() {
     const { data } = this.state;
     return (
@@ -97,17 +116,41 @@ export class VocabularyTable extends QuizTable {
             {
               Header: "English",
               id: 0,
-              Cell: this.renderEditable
+              Cell: this.renderEditable,
+              Footer: () => {
+                return (
+                  <div>
+                    <input type="text" name="eng" placeholder="New word (English)"
+                          value={ this.state.newWord['eng'] } onChange={ this.onNewWordChange } />
+                  </div>
+                );
+              },
             },
             {
               Header: "Hebrew",
               id: 1,
-              Cell: this.renderEditable
+              Cell: this.renderEditable,
+              Footer: () => {
+                return (
+                  <div>
+                    <input type="text" name="he" placeholder="New word (Hebrew)"
+                          value={ this.state.newWord['he'] } onChange={ this.onNewWordChange } />
+                  </div>
+                );
+              },
             },
             {
               Header: "Transcript",
               id: 2,
-              Cell: this.renderEditable
+              Cell: this.renderEditable,
+              Footer: () => {
+                return (
+                  <div>
+                    <input type="text" name="tr" placeholder="New word (transcript)"
+                          value={ this.state.newWord['tr'] } onChange={ this.onNewWordChange } />
+                  </div>
+                );
+              },
             },
             {
               Cell: (cellInfo) => {
@@ -116,7 +159,15 @@ export class VocabularyTable extends QuizTable {
                     <button onClick={ e => this.onDelete(cellInfo.index) }>Delete</button>
                   </div>
                 );
-              }
+              },
+              Footer: () => {
+                return (
+                  <div>
+                    <button disabled={ !(this.state.newWord['eng'] && this.state.newWord['he']) }
+                            onClick={ e => this.onAdd() }>Add</button>
+                  </div>
+                );
+              },
             },
           ]}
           defaultPageSize={10}
