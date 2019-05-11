@@ -1,4 +1,5 @@
 import React from 'react';
+import { CookiesProvider, withCookies } from 'react-cookie';
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import ReactGA from 'react-ga';
@@ -26,17 +27,19 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <Router history={ history }>
-        <div>
-          <Header />
+      <CookiesProvider>
+        <Router history={ history }>
+          <div>
+            <Header />
 
-          <Route exact path="/" render={ () => <Redirect to="/numeralsQuiz" /> } />
-          <Route path="/numeralsQuiz" component={ NumeralsQuiz } />
-          <Route path="/numeralsTable" component={ NumeralsTable } />
-          <Route path="/vocabularyQuiz" component={ VocabularyQuiz } />
-          <Route path="/vocabularyTable" component={ VocabularyTable } />
-        </div>
-      </Router>
+            <Route exact path="/" render={ () => <Redirect to="/numeralsQuiz" /> } />
+            <Route path="/numeralsQuiz" component={ NumeralsQuiz } />
+            <Route path="/numeralsTable" component={ NumeralsTable } />
+            <Route path="/vocabularyQuiz" component={ withCookies(VocabularyQuiz) } />
+            <Route path="/vocabularyTable" component={ withCookies(VocabularyTable) } />
+          </div>
+        </Router>
+      </CookiesProvider>
     );
   }
 

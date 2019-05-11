@@ -4,8 +4,6 @@ import 'react-table/react-table.css';
 
 import { Quiz, QuizItem, QuizTable } from './Quiz.js';
 
-import { vocabulary } from './db.local.js';
-
 import './VocabularyQuiz.css';
 
 
@@ -60,6 +58,8 @@ export class VocabularyQuiz extends Quiz {
   constructor(props) {
     super(props);
 
+    var vocabulary = props.cookies.get('vocabulary') || [];
+
     for (var i = 0; i < vocabulary.length; i++) {
       this.items.push(new VocabularyItem(...vocabulary[i]));
     }
@@ -70,11 +70,11 @@ export class VocabularyQuiz extends Quiz {
 
 export class VocabularyTable extends QuizTable {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      data: vocabulary,
+      data: props.cookies.get('vocabulary') || [],
       newWord: {},
     };
   }
@@ -83,6 +83,7 @@ export class VocabularyTable extends QuizTable {
     if (window.confirm('Really delete ' + this.state.data[index] + '?')) {
       this.setState(state => {
         state.data.splice(index, 1);
+        this.props.cookies.set('vocabulary', state.data);
         return state;
       });
     }
@@ -101,6 +102,7 @@ export class VocabularyTable extends QuizTable {
     this.setState(state => {
       // TODO state.data should also be a dict
       state.data.push([state.newWord['eng'], state.newWord['he'], state.newWord['tr']]);
+      this.props.cookies.set('vocabulary', state.data);
       state.newWord = {};
       return state;
     });
