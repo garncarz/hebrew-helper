@@ -214,7 +214,7 @@ export class VocabularyTable extends QuizTable {
                 return (
                   <div>
                     <button disabled={ !(this.state.newWord['eng'] && this.state.newWord['he']) }
-                            onClick={ e => this.onAdd() }>Add</button>
+                            name="addBtn" onClick={ this.onAdd }>Add</button>
                   </div>
                 );
               },
