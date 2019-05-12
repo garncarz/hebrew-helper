@@ -114,7 +114,7 @@ export class VocabularyTable extends QuizTable {
   exportData = () => {
     // https://stackoverflow.com/a/33542499
     var filename = 'vocabulary.json';
-    var blob = new Blob([JSON.stringify({data: this.state.data, version: VERSION})], {type: 'application/json'});
+    var blob = new Blob([JSON.stringify({version: VERSION, data: this.state.data})], {type: 'application/json'});
     if (window.navigator.msSaveOrOpenBlob) {
       window.navigator.msSaveBlob(blob, filename);
     } else {
