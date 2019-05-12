@@ -37,7 +37,7 @@ class VocabularyItem extends QuizItem {
     if (this.he === answer || this.removeNiqqud(this.he) === answer) {
       this.ok = 'he';
     }
-    if (this.tr && this.tr === answer || this.tr.replace("'", '') === answer) {
+    else if (this.tr && (this.tr === answer || this.tr.replace("'", '') === answer)) {
       this.ok = 'tr';
     }
     return this.ok;
