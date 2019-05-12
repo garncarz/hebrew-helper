@@ -3,7 +3,7 @@ import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 
 import { Quiz, QuizItem, QuizTable } from './Quiz.js';
-import { VERSION } from './version.js';
+import { VERSION, checkVersion } from './version.js';
 
 import './VocabularyQuiz.css';
 
@@ -78,6 +78,8 @@ export class VocabularyTable extends QuizTable {
       data: props.cookies.get('vocabulary') || [],
       newWord: {},
     };
+
+    this.importFileInput = React.createRef();
   }
 
   onDelete(index) {
@@ -125,10 +127,34 @@ export class VocabularyTable extends QuizTable {
     }
   }
 
+  importData = (event) => {
+    event.preventDefault();
+
+    var file = this.importFileInput.current.files[0];
+    var reader = new FileReader();
+
+    reader.onloadend = () => {
+      var blob = reader.result;
+      var json = JSON.parse(blob);
+      checkVersion(json.version);
+
+      this.setState(state => {
+        state.data = json.data;
+        this.props.cookies.set('vocabulary', state.data);
+        return state;
+      });
+    };
+
+    reader.readAsText(file);
+
+    this.importFileInput.current.value = null;
+  }
+
   render() {
     const { data } = this.state;
     return (
       <div className="VocabularyTable">
+
         <ReactTable
           data={data}
           columns={[
@@ -192,7 +218,14 @@ export class VocabularyTable extends QuizTable {
           defaultPageSize={10}
           className="-striped -highlight"
         />
-        <a onClick={ e => this.exportData() }>Export</a>
+
+        <button onClick={ this.exportData }>Export</button><br />
+
+        <form onSubmit={ this.importData }>
+          <input type="file" ref={ this.importFileInput } />
+          <button type="submit">Import</button>
+        </form>
+
       </div>
     );
   }
