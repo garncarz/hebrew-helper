@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { removeNiqqud } from './lib.js';
+import { removeNiqqud, us2heKeyboard } from './lib.js';
 
 
 export class QuizItem {
@@ -58,8 +58,11 @@ export class Quiz extends React.Component {
   }
 
   checkAnswer = (event) => {
-    var answer = event.target.value.trim();
-    var ok = this.state.item.checkAnswer(answer);
+    var answer = event.target.value;
+    if (this.state.item.from_eng) {
+      answer = us2heKeyboard(answer);
+    }
+    var ok = this.state.item.checkAnswer(answer.trim());
 
     this.setState({
       ok: ok,
