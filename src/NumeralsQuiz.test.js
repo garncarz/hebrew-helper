@@ -109,7 +109,12 @@ describe('Enter key', () => {
     item.from_eng = true;
     wrapper.setState({item: item});
 
-    input.simulate('change', {target: {value: 'efes'}});
+    // auto us2heKeyboard transforms correct transcript to something else:
+    // input.simulate('change', {target: {value: 'efes'}});
+
+    // so let's type אֶפֶס like with a Hebrew keyboard:
+    input.simulate('change', {target: {value: 'tpx'}});
+
     input.simulate('keyPress', {key: 'Enter'});
 
     expect(checkAnswer_spy).toHaveBeenCalled();
