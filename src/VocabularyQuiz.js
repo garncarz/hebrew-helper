@@ -130,6 +130,11 @@ export class VocabularyTable extends QuizTable {
   importData = (event) => {
     event.preventDefault();
 
+    // maybe do some merging?
+    if (!window.confirm('Really remove existing vocabulary and import it from file?')) {
+      return;
+    }
+
     var file = this.importFileInput.current.files[0];
     var reader = new FileReader();
 
