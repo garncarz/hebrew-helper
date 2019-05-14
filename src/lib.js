@@ -43,3 +43,14 @@ export function us2heKeyboard(str_us) {
   }
   return str_he;
 }
+
+
+export function blob2text(blob) {
+  return new Promise((resolve, reject) => {
+    var reader = new FileReader();
+    reader.onloadend = () => {
+      resolve(reader.result);
+    };
+    reader.readAsText(blob);
+  });
+}
