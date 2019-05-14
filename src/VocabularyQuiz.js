@@ -224,7 +224,7 @@ export class VocabularyTable extends QuizTable {
           className="-striped -highlight"
         />
 
-        <button onClick={ this.exportData }>Export</button><br />
+        <button name="exportBtn" onClick={ this.exportData }>Export</button><br />
 
         <form onSubmit={ this.importData }>
           <input type="file" ref={ this.importFileInput } />

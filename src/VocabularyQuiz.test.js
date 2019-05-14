@@ -2,6 +2,8 @@ import React from 'react';
 import Cookies from 'universal-cookie';
 import { mount } from 'enzyme';
 
+import { blob2text } from './lib';
+import { VERSION } from './version';
 import { VocabularyQuiz, VocabularyTable } from './VocabularyQuiz';
 
 var cookies, wrapper, input, btn;
@@ -50,4 +52,17 @@ it('can edit a word', () => {
   wrapper.find('.rt-td div').at(5).simulate('blur', {target: {innerHTML: 'שְׁנַיִם'}});
   expect(wrapper.state('data')[0][0]).toEqual('jedna');
   expect(wrapper.state('data')[1][1]).toEqual('שְׁנַיִם');
+});
+
+it('can export data', async () => {
+  window.URL.createObjectURL = jest.fn();
+  btn('exportBtn').simulate('click');
+
+  var blob = window.URL.createObjectURL.mock.calls[0][0];
+  expect(blob.type).toEqual('application/json');
+
+  var text = await blob2text(blob);
+  var data = JSON.parse(text);
+  expect(data['version']).toEqual(VERSION);
+  expect(data['data']).toEqual(wrapper.state('data'));
 });
