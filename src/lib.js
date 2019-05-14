@@ -51,6 +51,10 @@ export function blob2text(blob) {
     reader.onloadend = () => {
       resolve(reader.result);
     };
+    reader.onerror = (e) => {
+      reader.abort();
+      reject(e);
+    }
     reader.readAsText(blob);
   });
 }

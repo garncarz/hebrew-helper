@@ -65,4 +65,29 @@ it('can export data', async () => {
   var data = JSON.parse(text);
   expect(data['version']).toEqual(VERSION);
   expect(data['data']).toEqual(wrapper.state('data'));
+
+  // FIXME why does this change original_data?
+});
+
+it('can (re)import data', async () => {
+  window.URL.createObjectURL = jest.fn();
+  btn('exportBtn').simulate('click');
+  var blob = window.URL.createObjectURL.mock.calls[0][0];
+
+  wrapper.setState({data: []});
+
+  // doesn't work, file is not uploaded then:
+  // wrapper.find('input[type="file"]').simulate('change', {target: {files: [blob]}});
+
+  wrapper.instance().importFileInput.current = jest.fn();
+  wrapper.instance().importFileInput.current.files = [blob];
+
+  // also doesn't work, not waiting for async:
+  // wrapper.find('input[type="file"]').simulate('submit');
+
+  var event = jest.fn();
+  event.preventDefault = jest.fn();
+  await wrapper.instance().importData(event);
+
+  expect(wrapper.state('data')).toEqual(original_data);
 });

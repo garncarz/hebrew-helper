@@ -2,6 +2,7 @@ import React from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 
+import { blob2text } from './lib';
 import { Quiz, QuizItem, QuizTable } from './Quiz.js';
 import { VERSION, checkVersion } from './version.js';
 
@@ -127,7 +128,7 @@ export class VocabularyTable extends QuizTable {
     }
   }
 
-  importData = (event) => {
+  importData = async (event) => {
     event.preventDefault();
 
     // maybe do some merging?
@@ -136,21 +137,16 @@ export class VocabularyTable extends QuizTable {
     }
 
     var file = this.importFileInput.current.files[0];
-    var reader = new FileReader();
+    var text = await blob2text(file);
+    var data = JSON.parse(text);
 
-    reader.onloadend = () => {
-      var blob = reader.result;
-      var json = JSON.parse(blob);
-      checkVersion(json.version);
+    checkVersion(data.version);
 
-      this.setState(state => {
-        state.data = json.data;
-        this.props.cookies.set('vocabulary', state.data);
-        return state;
-      });
-    };
-
-    reader.readAsText(file);
+    this.setState(state => {
+      state.data = data.data;
+      this.props.cookies.set('vocabulary', state.data);
+      return state;
+    });
 
     this.importFileInput.current.value = null;
   }
