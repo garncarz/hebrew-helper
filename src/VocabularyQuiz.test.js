@@ -44,3 +44,10 @@ it('can delete a word', () => {
 
   expect(wrapper.state('data')).toEqual([original_data[0], original_data[2]]);
 });
+
+it('can edit a word', () => {
+  wrapper.find('.rt-td div').at(0).simulate('blur', {target: {innerHTML: 'jedna'}});
+  wrapper.find('.rt-td div').at(5).simulate('blur', {target: {innerHTML: 'שְׁנַיִם'}});
+  expect(wrapper.state('data')[0][0]).toEqual('jedna');
+  expect(wrapper.state('data')[1][1]).toEqual('שְׁנַיִם');
+});
