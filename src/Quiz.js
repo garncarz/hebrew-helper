@@ -44,7 +44,13 @@ export class Quiz extends React.Component {
   }
 
   newQuestion = () => {
-    var item = this.items[Math.floor(Math.random() * this.items.length)];
+    for (var i = 0; i < 5; i++) {
+      // don't repeat questions immediately
+      var item = this.items[Math.floor(Math.random() * this.items.length)];
+      if (item !== this.state.item) {
+        break;
+      }
+    }
 
     this.setState({
       item: item,
@@ -93,7 +99,7 @@ export class Quiz extends React.Component {
     return (
       <div className="content">
         <p>{ this.state.question }</p>
-        <input type="text" ref={this.inputRef} onChange={this.checkAnswer}
+        <input type="text" name="quizAnswer" ref={this.inputRef} onChange={this.checkAnswer}
           onKeyPress={this.keyPress} value={this.state.answer} />
         { this.state.ok
           ? <input type="button" onClick={this.newQuestion} value="Next" />
