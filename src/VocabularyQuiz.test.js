@@ -19,7 +19,7 @@ beforeEach(() => {
 
   wrapper = mount(<VocabularyTable cookies={ cookies } />);
 
-  wrapper.setState({data: [...original_data]});
+  wrapper.setState({data: JSON.parse(JSON.stringify(original_data))});  // deep copy
 
   input = (name) => { return wrapper.find(`input[name="${name}"]`); }
   btn = (name) => { return wrapper.find(`button[name="${name}"]`); }
@@ -36,6 +36,10 @@ it('can add a new word', () => {
 
   btn('addBtn').simulate('click');
   expect(wrapper.state('data')).toEqual([...original_data, ['hello', 'שלום', 'shalom']]);
+
+  expect(cookies.cookies.vocabulary).toContain('hello');
+  expect(cookies.cookies.vocabulary).toContain('שלום');
+  expect(cookies.cookies.vocabulary).toContain('shalom');
 });
 
 it('can delete a word', () => {
@@ -45,13 +49,23 @@ it('can delete a word', () => {
   wrapper.find('.rt-tr button').at(1).simulate('click');
 
   expect(wrapper.state('data')).toEqual([original_data[0], original_data[2]]);
+
+  expect(cookies.cookies.vocabulary).not.toContain('two');
+  expect(cookies.cookies.vocabulary).not.toContain('שְׁתַּיִם');
+  expect(cookies.cookies.vocabulary).not.toContain('shtayim');
 });
 
 it('can edit a word', () => {
   wrapper.find('.rt-td div').at(0).simulate('blur', {target: {innerHTML: 'jedna'}});
   wrapper.find('.rt-td div').at(5).simulate('blur', {target: {innerHTML: 'שְׁנַיִם'}});
+
   expect(wrapper.state('data')[0][0]).toEqual('jedna');
   expect(wrapper.state('data')[1][1]).toEqual('שְׁנַיִם');
+
+  expect(cookies.cookies.vocabulary).not.toContain('one');
+  expect(cookies.cookies.vocabulary).toContain('jedna');
+  expect(cookies.cookies.vocabulary).not.toContain('שְׁתַּיִם');
+  expect(cookies.cookies.vocabulary).toContain('שְׁנַיִם');
 });
 
 it('can export data', async () => {
@@ -65,8 +79,6 @@ it('can export data', async () => {
   var data = JSON.parse(text);
   expect(data['version']).toEqual(VERSION);
   expect(data['data']).toEqual(wrapper.state('data'));
-
-  // FIXME why does this change original_data?
 });
 
 it('can (re)import data', async () => {
@@ -74,7 +86,9 @@ it('can (re)import data', async () => {
   btn('exportBtn').simulate('click');
   var blob = window.URL.createObjectURL.mock.calls[0][0];
 
-  wrapper.setState({data: []});
+  wrapper.setState({data: []}, wrapper.instance().afterStateSet);
+
+  expect(cookies.cookies.vocabulary).toEqual('[]');
 
   // doesn't work, file is not uploaded then:
   // wrapper.find('input[type="file"]').simulate('change', {target: {files: [blob]}});
@@ -90,4 +104,8 @@ it('can (re)import data', async () => {
   await wrapper.instance().importData(event);
 
   expect(wrapper.state('data')).toEqual(original_data);
+
+  expect(cookies.cookies.vocabulary).toContain('one');
+  expect(cookies.cookies.vocabulary).toContain('שְׁתַּיִם');
+  expect(cookies.cookies.vocabulary).toContain('shalosh');
 });
