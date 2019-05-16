@@ -100,7 +100,7 @@ describe('Enter key', () => {
     input.simulate('keyPress', {key: 'Enter'});
 
     expect(checkAnswer_spy).not.toHaveBeenCalled();
-    expect(wrapper.state('ok')).toBeFalsy;
+    expect(wrapper.state('ok')).toBeFalsy();
     expect(newQuestion_spy).not.toHaveBeenCalled();
   });
 
@@ -114,11 +114,12 @@ describe('Enter key', () => {
 
     // so let's type אֶפֶס like with a Hebrew keyboard:
     input.simulate('change', {target: {value: 'tpx'}});
+    expect(wrapper.state('ok')).toBeTruthy();
 
     input.simulate('keyPress', {key: 'Enter'});
 
     expect(checkAnswer_spy).toHaveBeenCalled();
-    expect(wrapper.state('ok')).toBeTruthy;  // Shouldn't it be falsy again after `newQuestion` is called? Weird.
+    expect(wrapper.state('ok')).toBeFalsy();
     expect(newQuestion_spy).toHaveBeenCalled();
   });
 
@@ -131,7 +132,7 @@ describe('Enter key', () => {
     input.simulate('keyPress', {key: 'Enter'});
 
     expect(checkAnswer_spy).toHaveBeenCalled();
-    expect(wrapper.state('ok')).toBeFalsy;
+    expect(wrapper.state('ok')).toBeFalsy();
     expect(newQuestion_spy).not.toHaveBeenCalled();
   });
 
