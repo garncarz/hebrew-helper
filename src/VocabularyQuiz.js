@@ -83,13 +83,16 @@ export class VocabularyTable extends QuizTable {
     this.importFileInput = React.createRef();
   }
 
+  afterStateSet = () => {
+    this.props.cookies.set('vocabulary', this.state.data);
+  }
+
   onDelete(index) {
     if (window.confirm('Really delete ' + this.state.data[index] + '?')) {
       this.setState(state => {
         state.data.splice(index, 1);
-        this.props.cookies.set('vocabulary', state.data);
         return state;
-      });
+      }, this.afterStateSet);
     }
   }
 
@@ -106,10 +109,9 @@ export class VocabularyTable extends QuizTable {
     this.setState(state => {
       // TODO state.data should also be a dict
       state.data.push([state.newWord['eng'], state.newWord['he'], state.newWord['tr']]);
-      this.props.cookies.set('vocabulary', state.data);
       state.newWord = {};
       return state;
-    });
+    }, this.afterStateSet);
   }
 
   exportData = () => {
@@ -144,9 +146,8 @@ export class VocabularyTable extends QuizTable {
 
     this.setState(state => {
       state.data = data.data;
-      this.props.cookies.set('vocabulary', state.data);
       return state;
-    });
+    }, this.afterStateSet);
 
     this.importFileInput.current.value = null;
   }

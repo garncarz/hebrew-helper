@@ -109,6 +109,8 @@ export class Quiz extends React.Component {
 
 export class QuizTable extends React.Component {
 
+  afterStateSet = () => { }
+
   renderEditable = (cellInfo) => {
     return (
       <div
@@ -118,7 +120,7 @@ export class QuizTable extends React.Component {
         onBlur={e => {
           const data = [...this.state.data];
           data[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
-          this.setState({ data });
+          this.setState({ data }, this.afterStateSet);
         }}
         dangerouslySetInnerHTML={{
           __html: this.state.data[cellInfo.index][cellInfo.column.id],
