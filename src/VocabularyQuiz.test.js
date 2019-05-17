@@ -151,3 +151,25 @@ describe('quiz', () => {
   });
 
 });
+
+
+describe('no data', () => {
+
+  beforeEach(() => {
+    // creating a new object does not work, it somehow remembers data from previous tests:
+    // cookies = new Cookies();
+
+    cookies.set('vocabulary', []);
+  });
+
+  it('warns in the quiz', () => {
+    wrapper = mount(<VocabularyQuiz cookies={ cookies } />);
+    expect(wrapper.text()).toContain('Please add some vocabulary first');
+  });
+
+  it('has some helping text in the table', () => {
+    wrapper = mount(<VocabularyTable cookies={ cookies } />);
+    expect(wrapper.text()).toContain('You can get some vocabulary at');
+  });
+
+});

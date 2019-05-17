@@ -221,6 +221,10 @@ export class VocabularyTable extends QuizTable {
           className="-striped -highlight"
         />
 
+        { this.state.data.length < 1 &&
+          <p>You can get some vocabulary at: TODO</p>
+        }
+
         <button name="exportBtn" onClick={ this.exportData }>Export</button><br />
 
         <form onSubmit={ this.importData }>
