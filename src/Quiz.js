@@ -44,6 +44,10 @@ export class Quiz extends React.Component {
   }
 
   newQuestion = () => {
+    if (this.items.length < 1) {
+      return;
+    }
+
     for (var i = 0; i < 5; i++) {
       // don't repeat questions immediately
       var item = this.items[Math.floor(Math.random() * this.items.length)];
@@ -96,6 +100,14 @@ export class Quiz extends React.Component {
   }
 
   render() {
+    if (this.items.length < 1) {
+      return (
+        <div className="content">
+          <p>Please add some vocabulary first.</p>
+        </div>
+      );
+    }
+
     return (
       <div className="content">
         <p>{ this.state.question }</p>
