@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { removeNiqqud, us2heKeyboard } from './lib.js';
+import { removeNiqqud, us2heKeyboard, UsHeKeyboardPicture } from './lib.js';
 
 
 export class QuizItem {
@@ -118,6 +118,7 @@ export class Quiz extends React.Component {
           : <input type="button" onClick={this.showHelp} value="Help" />
         }
         <p className="help">{ this.state.help }</p>
+        <UsHeKeyboardPicture />
       </div>
     );
   }
