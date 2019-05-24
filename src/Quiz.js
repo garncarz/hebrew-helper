@@ -100,6 +100,10 @@ export class Quiz extends React.Component {
     }
   }
 
+  addChar = (char) => {
+    this.checkAnswer({ target: { value: this.state.answer + char } });
+  }
+
   render() {
     if (this.items.length < 1) {
       return (
@@ -120,7 +124,7 @@ export class Quiz extends React.Component {
         }
         <p className="help">{ this.state.help }</p>
 
-        <UsHeKeyboard />
+        <UsHeKeyboard addChar={ this.addChar } />
       </div>
     );
   }
