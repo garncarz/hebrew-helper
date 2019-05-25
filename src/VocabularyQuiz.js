@@ -6,8 +6,6 @@ import { blob2text } from './lib';
 import { Quiz, QuizItem, QuizTable } from './Quiz.js';
 import { VERSION, checkVersion } from './version.js';
 
-import './VocabularyQuiz.css';
-
 
 class VocabularyItem extends QuizItem {
 

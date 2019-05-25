@@ -1,6 +1,5 @@
 import { Quiz, QuizItem } from './Quiz.js';
 import { numerals } from './db.js';
-import './NumeralsQuiz.css';
 
 
 class Numeral extends QuizItem {

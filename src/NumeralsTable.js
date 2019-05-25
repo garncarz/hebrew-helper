@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { numerals } from './db.js';
-import './NumeralsTable.css';
 
 
 export default class NumeralsTable extends Component {
