@@ -59,8 +59,8 @@ describe('table', () => {
   });
 
   it('can edit a word', () => {
-    wrapper.find('.rt-td div').at(0).simulate('blur', {target: {innerHTML: 'jedna'}});
-    wrapper.find('.rt-td div').at(5).simulate('blur', {target: {innerHTML: 'שְׁנַיִם'}});
+    wrapper.find('.rt-td div').at(0).simulate('blur', {target: {textContent: 'jedna'}});
+    wrapper.find('.rt-td div').at(5).simulate('blur', {target: {innerText: 'שְׁנַיִם'}});
 
     expect(wrapper.state('data')[0][0]).toEqual('jedna');
     expect(wrapper.state('data')[1][1]).toEqual('שְׁנַיִם');

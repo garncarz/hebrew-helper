@@ -144,7 +144,7 @@ export class QuizTable extends React.Component {
         suppressContentEditableWarning
         onBlur={e => {
           const data = [...this.state.data];
-          data[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
+          data[cellInfo.index][cellInfo.column.id] = e.target.textContent || e.target.innerText;
           this.setState({ data }, this.afterStateSet);
         }}
         dangerouslySetInnerHTML={{
