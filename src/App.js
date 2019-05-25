@@ -4,10 +4,11 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import ReactGA from 'react-ga';
 
+import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Row from 'react-bootstrap/Row';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import NumeralsQuiz from './NumeralsQuiz';
@@ -41,11 +42,13 @@ export default class App extends React.Component {
             </Row>
 
             <Row>
-              <Route exact path="/" render={ () => <Redirect to="/numeralsQuiz" /> } />
-              <Route path="/numeralsQuiz" component={ NumeralsQuiz } />
-              <Route path="/numeralsTable" component={ NumeralsTable } />
-              <Route path="/vocabularyQuiz" component={ withCookies(VocabularyQuiz) } />
-              <Route path="/vocabularyTable" component={ withCookies(VocabularyTable) } />
+              <Col>
+                <Route exact path="/" render={ () => <Redirect to="/numeralsQuiz" /> } />
+                <Route path="/numeralsQuiz" component={ NumeralsQuiz } />
+                <Route path="/numeralsTable" component={ NumeralsTable } />
+                <Route path="/vocabularyQuiz" component={ withCookies(VocabularyQuiz) } />
+                <Route path="/vocabularyTable" component={ withCookies(VocabularyTable) } />
+              </Col>
             </Row>
           </Container>
         </Router>

@@ -1,5 +1,10 @@
 import React from 'react';
 
+import Alert from 'react-bootstrap/Alert';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+
 import { removeNiqqud, us2heKeyboard } from './lib.js';
 import UsHeKeyboard from './keyboard';
 
@@ -107,22 +112,31 @@ export class Quiz extends React.Component {
   render() {
     if (this.items.length < 1) {
       return (
-        <div className="content">
-          <p>Please add some vocabulary first.</p>
-        </div>
+        <Alert variant="warning">
+          Please add some vocabulary first.
+        </Alert>
       );
     }
 
     return (
-      <div className="content">
-        <p>{ this.state.question }</p>
-        <input type="text" name="quizAnswer" ref={this.inputRef} onChange={this.checkAnswer}
-          onKeyPress={this.keyPress} value={this.state.answer} />
+      <div className="text-center">
+        <p className="display-1">{ this.state.question }</p>
+
+        <Form.Row className="justify-content-center my-4">
+          <Col md="5">
+            <Form.Control type="text" name="quizAnswer" size="lg" ref={ this.inputRef } onChange={ this.checkAnswer }
+              onKeyPress={ this.keyPress } value={ this.state.answer } />
+          </Col>
+        </Form.Row>
+
         { this.state.ok
-          ? <input type="button" onClick={this.newQuestion} value="Next" />
-          : <input type="button" onClick={this.showHelp} value="Help" />
+          ? <Button size="lg" onClick={ this.newQuestion }>Next</Button>
+          : <Button size="lg" onClick={ this.showHelp }>Help</Button>
         }
-        <p className="help">{ this.state.help }</p>
+
+        <p className="display-4" style={{ whiteSpace: 'pre-line', minHeight: '3em' }}>
+          { this.state.help }
+        </p>
 
         <UsHeKeyboard addChar={ this.addChar } />
       </div>
