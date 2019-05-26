@@ -1,41 +1,40 @@
-import React, { Component } from 'react';
+import React from 'react';
+
+import Table from 'react-bootstrap/Table';
+
 import { numerals } from './db.js';
 
 
-export default class NumeralsTable extends Component {
-
-  rows = () => {
-    var rows = [];
-    for (var i = 0; i < numerals.length; i++) {
-      rows.push(
-        <tr>
-          <td>{numerals[i][0]}</td>
-          { numerals[i].length > 3 &&
-            <td>{numerals[i][2]} ({numerals[i][1]})</td>
-          }
-          { numerals[i].length > 3 &&
-            <td>{numerals[i][4]} ({numerals[i][3]})</td>
-          }
-          { numerals[i].length <= 3 &&
-            <td colspan="2">{numerals[i][2]} ({numerals[i][1]})</td>
-          }
-        </tr>
-      );
-    }
-    return rows;
-  }
+export default class NumeralsTable extends React.Component {
 
   render() {
     return (
       <div className="content">
-        <table>
-          <tr>
-            <th>Number</th>
-            <th>Feminine</th>
-            <th>Masculine</th>
-          </tr>
-          { this.rows() }
-        </table>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Number</th>
+              <th>Feminine</th>
+              <th>Masculine</th>
+            </tr>
+          </thead>
+          <tbody>
+            { numerals.map((numeral, i) =>
+              <tr key={ i }>
+                <td>{numeral[0]}</td>
+                { numeral.length > 3 &&
+                  <>
+                    <td>{numeral[2]} ({numeral[1]})</td>
+                    <td>{numeral[4]} ({numeral[3]})</td>
+                  </>
+                }
+                { numeral.length <= 3 &&
+                  <td colSpan="2" className="text-center">{numeral[2]} ({numeral[1]})</td>
+                }
+              </tr>
+            ) }
+          </tbody>
+        </Table>
       </div>
     );
   }
