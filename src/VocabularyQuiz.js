@@ -79,6 +79,11 @@ export class VocabularyTable extends QuizTable {
     };
 
     this.importFileInput = React.createRef();
+    this.newWordInputs = {
+      eng: React.createRef(),
+      he: React.createRef(),
+      tr: React.createRef(),
+    };
   }
 
   afterStateSet = () => {
@@ -99,8 +104,7 @@ export class VocabularyTable extends QuizTable {
     this.setState(state => {
       state.newWord[event.target.name] = event.target.value;
       return state;
-    });
-    // TODO don't lose input focus
+    }, () => { this.newWordInputs[event.target.name].current.focus(); });
   }
 
   onAdd = () => {
@@ -166,7 +170,8 @@ export class VocabularyTable extends QuizTable {
                 return (
                   <div>
                     <input type="text" name="eng" placeholder="New word (English)"
-                          value={ this.state.newWord['eng'] } onChange={ this.onNewWordChange } />
+                           ref={ this.newWordInputs['eng'] }
+                           value={ this.state.newWord['eng'] } onChange={ this.onNewWordChange } />
                   </div>
                 );
               },
@@ -179,7 +184,8 @@ export class VocabularyTable extends QuizTable {
                 return (
                   <div>
                     <input type="text" name="he" placeholder="New word (Hebrew)"
-                          value={ this.state.newWord['he'] } onChange={ this.onNewWordChange } />
+                           ref={ this.newWordInputs['he'] }
+                           value={ this.state.newWord['he'] } onChange={ this.onNewWordChange } />
                   </div>
                 );
               },
@@ -192,7 +198,8 @@ export class VocabularyTable extends QuizTable {
                 return (
                   <div>
                     <input type="text" name="tr" placeholder="New word (transcript)"
-                          value={ this.state.newWord['tr'] } onChange={ this.onNewWordChange } />
+                           ref={ this.newWordInputs['tr'] }
+                           value={ this.state.newWord['tr'] } onChange={ this.onNewWordChange } />
                   </div>
                 );
               },
