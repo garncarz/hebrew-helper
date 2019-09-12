@@ -15,6 +15,7 @@ const original_data = [
 var cookies, wrapper;
 
 function input(name) { return wrapper.find(`input[name="${name}"]`); }
+function div(id) { return wrapper.find(`div[id="${id}"]`); }
 function btn(name) { return wrapper.find(`button[name="${name}"]`); }
 
 beforeEach(() => {
@@ -127,10 +128,10 @@ describe('quiz', () => {
 
     var item = wrapper.state('item');
     var answer = item.from_eng ? item.he : item.eng;
-    input('quizAnswer').simulate('change', {target: {value: answer}});
+    div('quizAnswer').simulate('input', {target: {textContent: answer}});
     expect(wrapper.state('ok')).toBeTruthy();
 
-    input('quizAnswer').simulate('keyPress', {key: 'Enter'});
+    div('quizAnswer').simulate('keyPress', {key: 'Enter'});
 
     expect(wrapper.state('item')).not.toBe(item);  // a new question follows
     expect(wrapper.state('ok')).toBeFalsy();
@@ -140,11 +141,11 @@ describe('quiz', () => {
     expect(wrapper.state('ok')).toBeFalsy();
     var item = wrapper.state('item');
 
-    input('quizAnswer').simulate('change', {target: {value: "I won't tell you"}});
+    div('quizAnswer').simulate('input', {target: {textContent: "I won't tell you"}});
 
     expect(wrapper.state('ok')).toBeFalsy();
 
-    input('quizAnswer').simulate('keyPress', {key: 'Enter'});
+    div('quizAnswer').simulate('keyPress', {key: 'Enter'});
 
     expect(wrapper.state('item')).toBe(item);  // still the same question
     expect(wrapper.state('ok')).toBeFalsy();

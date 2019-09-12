@@ -126,6 +126,7 @@ export class Quiz extends React.Component {
           <Col md="8">
             <div
               className="display-2 p-2"
+              id="quizAnswer"
               contentEditable
               suppressContentEditableWarning
               onKeyPress={ this.keyPress }
