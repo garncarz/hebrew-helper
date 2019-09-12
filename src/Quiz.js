@@ -3,7 +3,7 @@ import React from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 
 import { removeNiqqud, us2heKeyboard } from './lib.js';
 import UsHeKeyboard from './keyboard';
@@ -74,7 +74,7 @@ export class Quiz extends React.Component {
   }
 
   checkAnswer = (event) => {
-    var answer = event.target.value;
+    var answer = event.target.value || event.target.textContent || event.target.innerText;
     if (this.state.item.from_eng) {
       answer = us2heKeyboard(answer);
     }
@@ -122,12 +122,21 @@ export class Quiz extends React.Component {
       <div className="text-center">
         <p className="display-1">{ this.state.question }</p>
 
-        <Form.Row className="justify-content-center my-4">
-          <Col md="5">
-            <Form.Control type="text" name="quizAnswer" size="lg" ref={ this.inputRef } onChange={ this.checkAnswer }
-              onKeyPress={ this.keyPress } value={ this.state.answer } />
+        <Row className="justify-content-center my-4">
+          <Col md="8">
+            <div
+              className="display-2 p-2"
+              contentEditable
+              suppressContentEditableWarning
+              onKeyPress={ this.keyPress }
+              onInput={ this.checkAnswer }
+              onBlur={ this.checkAnswer }
+              ref={ this.inputRef }
+              >
+              { this.state.answer }
+            </div>
           </Col>
-        </Form.Row>
+        </Row>
 
         { this.state.ok
           ? <Button size="lg" onClick={ this.newQuestion }>Next</Button>
