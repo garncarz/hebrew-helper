@@ -14,6 +14,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import NumeralsQuiz from './NumeralsQuiz';
 import NumeralsTable from './NumeralsTable';
 import { VocabularyQuiz, VocabularyTable } from './VocabularyQuiz';
+import Settings from './Settings';
 
 import DavidStar from './david_star.svg';
 
@@ -48,6 +49,7 @@ export default class App extends React.Component {
                 <Route path="/numeralsTable" component={ NumeralsTable } />
                 <Route path="/vocabularyQuiz" component={ withCookies(VocabularyQuiz) } />
                 <Route path="/vocabularyTable" component={ withCookies(VocabularyTable) } />
+                <Route path="/settings" component={ withCookies(Settings) } />
               </Col>
             </Row>
           </Container>
@@ -72,6 +74,7 @@ const Header = () => (
         <LinkContainer to="/numeralsTable"><Nav.Link>Numerals table</Nav.Link></LinkContainer>
         <LinkContainer to="/vocabularyQuiz"><Nav.Link>Vocabulary quiz</Nav.Link></LinkContainer>
         <LinkContainer to="/vocabularyTable"><Nav.Link>Vocabulary table</Nav.Link></LinkContainer>
+        <LinkContainer to="/settings"><Nav.Link>Settings</Nav.Link></LinkContainer>
       </Nav>
     </Navbar.Collapse>
   </Navbar>
