@@ -1,6 +1,12 @@
 import React from 'react';
 
+import Alert from 'react-bootstrap/Alert';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+
 import { removeNiqqud, us2heKeyboard } from './lib.js';
+import UsHeKeyboard from './keyboard';
 
 
 export class QuizItem {
@@ -68,7 +74,7 @@ export class Quiz extends React.Component {
   }
 
   checkAnswer = (event) => {
-    var answer = event.target.value;
+    var answer = event.target.value || event.target.textContent || event.target.innerText;
     if (this.state.item.from_eng) {
       answer = us2heKeyboard(answer);
     }
@@ -99,25 +105,50 @@ export class Quiz extends React.Component {
     }
   }
 
+  addChar = (char) => {
+    this.checkAnswer({ target: { value: this.state.answer + char } });
+  }
+
   render() {
     if (this.items.length < 1) {
       return (
-        <div className="content">
-          <p>Please add some vocabulary first.</p>
-        </div>
+        <Alert variant="warning">
+          Please add some vocabulary first.
+        </Alert>
       );
     }
 
     return (
-      <div className="content">
-        <p>{ this.state.question }</p>
-        <input type="text" name="quizAnswer" ref={this.inputRef} onChange={this.checkAnswer}
-          onKeyPress={this.keyPress} value={this.state.answer} />
+      <div className="text-center">
+        <p className="display-1">{ this.state.question }</p>
+
+        <Row className="justify-content-center my-4">
+          <Col md="8">
+            <div
+              className="display-2 p-2"
+              id="quizAnswer"
+              contentEditable
+              suppressContentEditableWarning
+              onKeyPress={ this.keyPress }
+              onInput={ this.checkAnswer }
+              onBlur={ this.checkAnswer }
+              ref={ this.inputRef }
+              >
+              { this.state.answer }
+            </div>
+          </Col>
+        </Row>
+
         { this.state.ok
-          ? <input type="button" onClick={this.newQuestion} value="Next" />
-          : <input type="button" onClick={this.showHelp} value="Help" />
+          ? <Button size="lg" onClick={ this.newQuestion }>Next</Button>
+          : <Button size="lg" onClick={ this.showHelp }>Help</Button>
         }
-        <p className="help">{ this.state.help }</p>
+
+        <p className="display-4" style={{ whiteSpace: 'pre-line', minHeight: '3em' }}>
+          { this.state.help }
+        </p>
+
+        <UsHeKeyboard addChar={ this.addChar } />
       </div>
     );
   }
@@ -137,7 +168,7 @@ export class QuizTable extends React.Component {
         suppressContentEditableWarning
         onBlur={e => {
           const data = [...this.state.data];
-          data[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
+          data[cellInfo.index][cellInfo.column.id] = e.target.textContent || e.target.innerText;
           this.setState({ data }, this.afterStateSet);
         }}
         dangerouslySetInnerHTML={{

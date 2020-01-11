@@ -92,7 +92,7 @@ describe('Enter key', () => {
     newQuestion_spy = jest.spyOn(wrapper.instance(), 'newQuestion');
     checkAnswer_spy = jest.spyOn(wrapper.instance(), 'checkAnswer');
 
-    input = wrapper.find('input[type="text"]');
+    input = wrapper.find('div[id="quizAnswer"]');
     // It seems `focus()` doesn't work in tests.
   });
 
@@ -113,7 +113,7 @@ describe('Enter key', () => {
     // input.simulate('change', {target: {value: 'efes'}});
 
     // so let's type אֶפֶס like with a Hebrew keyboard:
-    input.simulate('change', {target: {value: 'tpx'}});
+    input.simulate('input', {target: {textContent: 'tpx'}});
     expect(wrapper.state('ok')).toBeTruthy();
 
     input.simulate('keyPress', {key: 'Enter'});
@@ -128,7 +128,7 @@ describe('Enter key', () => {
     item.from_eng = false;
     wrapper.setState({item: item});
 
-    input.simulate('change', {target: {value: 'efes'}});
+    input.simulate('input', {target: {textContent: 'efes'}});
     input.simulate('keyPress', {key: 'Enter'});
 
     expect(checkAnswer_spy).toHaveBeenCalled();

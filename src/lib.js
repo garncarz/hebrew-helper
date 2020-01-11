@@ -1,4 +1,4 @@
-const us2heKeys = {
+export const us2heKeys = {
   'w': "'",
   'e': 'ק',
   'r': 'ר',

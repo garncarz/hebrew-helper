@@ -1,14 +1,22 @@
 import React from 'react';
 import { CookiesProvider, withCookies } from 'react-cookie';
-import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import ReactGA from 'react-ga';
+
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Row from 'react-bootstrap/Row';
+import { LinkContainer } from 'react-router-bootstrap';
 
 import NumeralsQuiz from './NumeralsQuiz';
 import NumeralsTable from './NumeralsTable';
 import { VocabularyQuiz, VocabularyTable } from './VocabularyQuiz';
+import Settings from './Settings';
 
-import './App.css';
+import DavidStar from './david_star.svg';
 
 
 const history = createHistory();
@@ -29,15 +37,22 @@ export default class App extends React.Component {
     return (
       <CookiesProvider>
         <Router history={ history }>
-          <div>
-            <Header />
+          <Container>
+            <Row>
+              <Header />
+            </Row>
 
-            <Route exact path="/" render={ () => <Redirect to="/numeralsQuiz" /> } />
-            <Route path="/numeralsQuiz" component={ NumeralsQuiz } />
-            <Route path="/numeralsTable" component={ NumeralsTable } />
-            <Route path="/vocabularyQuiz" component={ withCookies(VocabularyQuiz) } />
-            <Route path="/vocabularyTable" component={ withCookies(VocabularyTable) } />
-          </div>
+            <Row>
+              <Col>
+                <Route exact path="/" render={ () => <Redirect to="/numeralsQuiz" /> } />
+                <Route path="/numeralsQuiz" component={ NumeralsQuiz } />
+                <Route path="/numeralsTable" component={ NumeralsTable } />
+                <Route path="/vocabularyQuiz" component={ withCookies(VocabularyQuiz) } />
+                <Route path="/vocabularyTable" component={ withCookies(VocabularyTable) } />
+                <Route path="/settings" component={ withCookies(Settings) } />
+              </Col>
+            </Row>
+          </Container>
         </Router>
       </CookiesProvider>
     );
@@ -47,10 +62,20 @@ export default class App extends React.Component {
 
 
 const Header = () => (
-  <div className="header">
-    <Link to="/numeralsQuiz">Numerals quiz</Link>
-    <Link to="/numeralsTable">Numerals table</Link>
-    <Link to="/vocabularyQuiz">Vocabulary quiz</Link>
-    <Link to="/vocabularyTable">Vocabulary table</Link>
-  </div>
+  <Navbar expand="lg">
+    <Navbar.Brand>
+      <img alt="" src={ DavidStar } width="30" height="30" />
+      {' Hebrew Learning Helper'}
+    </Navbar.Brand>
+    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+    <Navbar.Collapse id="basic-navbar-nav">
+      <Nav fill variant="tabs">
+        <LinkContainer to="/numeralsQuiz"><Nav.Link>Numerals quiz</Nav.Link></LinkContainer>
+        <LinkContainer to="/numeralsTable"><Nav.Link>Numerals table</Nav.Link></LinkContainer>
+        <LinkContainer to="/vocabularyQuiz"><Nav.Link>Vocabulary quiz</Nav.Link></LinkContainer>
+        <LinkContainer to="/vocabularyTable"><Nav.Link>Vocabulary table</Nav.Link></LinkContainer>
+        <LinkContainer to="/settings"><Nav.Link>Settings</Nav.Link></LinkContainer>
+      </Nav>
+    </Navbar.Collapse>
+  </Navbar>
 );
